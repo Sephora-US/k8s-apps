@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+
+  replicas: 2 # tells deployment to run 2 pods matching the template
+
+  template:
+    metadata:
+      labels:
+        app: nginx
+
+    spec:
+      imagePullSecrets:
+      - name: gcr-json-key
+      containers:
+      - name: nginx
+        image: gcr.io/sep-poc-aa-hackathon-prj/aa-gcr/aa-nginx:latest
+
+        ports:
+        - containerPort: 80
+      tolerations:
+      - key: instance_type
+        value: spot
+        effect: NoSchedule
+        operator: Equal
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: team
+                operator: In
+                values:
+                - mcp
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - nginx
+            topologyKey: kubernetes.io/hostname
+
