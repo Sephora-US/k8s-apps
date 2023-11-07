@@ -21,7 +21,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: aa-gcp.localhost.com
+  #- host: 34.68.35.76
+  - host: 76.35.68.34.bc.googleusercontent.com
     http:
       paths:
       - path: /
