@@ -22,7 +22,7 @@ spec:
   ingressClassName: nginx
   rules:
   #- host: 34.68.35.76
-  - host: 76.35.68.34.bc.googleusercontent.com
+  - host: api-perf1.sephora.com
     http:
       paths:
       - path: /
